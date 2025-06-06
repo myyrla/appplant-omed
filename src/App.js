@@ -595,7 +595,6 @@ export default function PlantaoApp() {
           </div>
         )}
       </div>
-
       <div className="botoes-registro">
         <Button
           onClick={voltarParaInicio}
@@ -620,6 +619,20 @@ export default function PlantaoApp() {
         <p>
           <strong>Total geral:</strong> R$ {totalGeral.toFixed(2)}
         </p>
+      </div>
+
+      {/* Footer de direitos reservados */}
+      <div
+        style={{
+          textAlign: 'center',
+          marginTop: '30px',
+          padding: '10px 0',
+          fontSize: '12px',
+          color: '#888',
+          borderTop: '1px solid #eee',
+        }}
+      >
+        &copy; 2025 Meu Plantão OMED. Todos os direitos reservados.
       </div>
     </div>
   );
