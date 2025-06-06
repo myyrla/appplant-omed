@@ -88,12 +88,10 @@ export default function PlantaoApp() {
       return 0;
     }
 
-    // Use subMilliseconds to make the end of the interval exclusive of the final hour.
-    // This ensures that if a shift ends exactly at 19:00, the 19:00 hour itself is not included
-    // in the list of hours for the previous rate bracket (e.g., 07h-19h).
+    // Correção: Use addHours(dataFim, -1) para tornar o final do intervalo exclusivo
     const hoursInterval = eachHourOfInterval({
       start: dataInicio,
-      end: subMilliseconds(dataFim, 1), // Garante que o intervalo é exclusivo da hora final exata
+      end: addHours(dataFim, -1),
     });
 
     // --- Início da seção de depuração para cálculo fixo ---
@@ -101,7 +99,7 @@ export default function PlantaoApp() {
     console.log('Tipo de Plantão:', tipoPlantao);
     console.log('Data/Hora Início (parsed):', dataInicio.toISOString());
     console.log('Data/Hora Fim (parsed):', dataFim.toISOString());
-    console.log('Data/Hora Fim enviada para eachHourOfInterval (subtraindo 1ms):', subMilliseconds(dataFim, 1).toISOString());
+    console.log('Data/Hora Fim enviada para eachHourOfInterval (subtraindo 1 hora):', addHours(dataFim, -1).toISOString());
     console.log('Horas no intervalo gerado (apenas início da hora):', hoursInterval.map(d => format(d, 'HH:mm')));
     console.log('Número de horas no intervalo:', hoursInterval.length);
     // --- Fim da seção de depuração para cálculo fixo ---
@@ -524,6 +522,18 @@ export default function PlantaoApp() {
           >
             Avançar para registro
           </Button>
+        </div>
+        <div
+            style={{
+              textAlign: 'center',
+              marginTop: '30px',
+              padding: '10px 0',
+              fontSize: '12px',
+              color: '#888',
+              borderTop: '1px solid #eee',
+            }}
+          >
+            &copy; 2025 Meu Plantão OMED. Todos os direitos reservados.
         </div>
       </div>
     );
