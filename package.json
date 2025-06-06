@@ -16,12 +16,13 @@
     "xlsx": "0.18.5",
     "exceljs": "^4.3.0"
   },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
-  },
+"scripts": {
+  "start": "react-scripts start",
+  "build": "react-scripts build && cp public/_redirects build/_redirects",
+  "test": "react-scripts test --env=jsdom",
+  "eject": "react-scripts eject"
+},
+
   "devDependencies": {
     "react-scripts": "latest"
   },
