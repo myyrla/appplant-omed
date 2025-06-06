@@ -11,7 +11,7 @@ import {
   SelectContent,
   SelectItem,
 } from './components/ui/select';
-import { eachHourOfInterval, addHours, format, isValid } from 'date-fns'; // Importei isValid
+import { eachHourOfInterval, addHours, format, isValid, subMilliseconds } from 'date-fns'; // Importei isValid e subMilliseconds
 
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
@@ -71,47 +71,67 @@ export default function PlantaoApp() {
       tipoPlantao === 'Lider'
         ? `${dataInicioPlantao}T09:00:00`
         : `${dataInicioPlantao}T${horaInicioPlantao}:00`;
-    const endDateTimeString =
-      tipoPlantao === 'Lider'
-        ? `${dataFimPlantao}T17:00:00`
-        : `${dataFimPlantao}T${horaFimPlantao}:00`;
+    // Adjusted endDateTimeString to ensure it uses dataFimPlantao correctly for PA
+    const endDateTimeString =
+      tipoPlantao === 'Lider'
+        ? `${dataFimPlantao}T17:00:00`
+        : `${dataFimPlantao}T${horaFimPlantao}:00`;
+
 
     const dataInicio = new Date(startDateTimeString);
     const dataFim = new Date(endDateTimeString);
 
-    if (isNaN(dataInicio.getTime()) || isNaN(dataFim.getTime())) {
+    if (isNaN(dataInicio.getTime()) || isNaN(dataFim.getTime()) || dataFim.getTime() <= dataInicio.getTime()) {
       console.error(
-        'Datas ou horas inválidas fornecidas para cálculo de valor fixo.'
+        'Datas ou horas inválidas ou período de término antes/igual ao de início para cálculo de valor fixo.'
       );
       return 0;
     }
 
-    const horas = eachHourOfInterval({
+    // Use subMilliseconds to make the end of the interval exclusive of the final hour.
+    // This ensures that if a shift ends exactly at 19:00, the 19:00 hour itself is not included
+    // in the list of hours for the previous rate bracket (e.g., 07h-19h).
+    const hoursInterval = eachHourOfInterval({
       start: dataInicio,
-      end: dataFim,
+      end: subMilliseconds(dataFim, 1), // Garante que o intervalo é exclusivo da hora final exata
     });
 
-    return horas.reduce((total, hora) => {
-      const h = hora.getHours();
-      const diaSemana = hora.getDay();
-      const fimDeSemana = diaSemana === 0 || diaSemana === 6;
+    // --- Início da seção de depuração para cálculo fixo ---
+    console.log('--- Debugging Fixed Value Calculation ---');
+    console.log('Tipo de Plantão:', tipoPlantao);
+    console.log('Data/Hora Início (parsed):', dataInicio.toISOString());
+    console.log('Data/Hora Fim (parsed):', dataFim.toISOString());
+    console.log('Data/Hora Fim enviada para eachHourOfInterval (subtraindo 1ms):', subMilliseconds(dataFim, 1).toISOString());
+    console.log('Horas no intervalo gerado (apenas início da hora):', hoursInterval.map(d => format(d, 'HH:mm')));
+    console.log('Número de horas no intervalo:', hoursInterval.length);
+    // --- Fim da seção de depuração para cálculo fixo ---
+
+    return hoursInterval.reduce((total, hora) => {
+      const h = hora.getHours(); // Hora atual do intervalo (ex: 13 para 13:00)
+      const diaSemana = hora.getDay(); // 0 para Domingo, 6 para Sábado
+      const fimDeSemana = diaSemana === 0 || diaSemana === 6; // Verifica se é Fim de Semana
+      let valorHora = 0;
 
       if (tipoPlantao === 'PA') {
-        return (
-          total +
-          (fimDeSemana
-            ? h >= 7 && h < 19
-              ? 60
-              : 70
-            : h >= 7 && h < 19
-            ? 50
-            : 70)
-        );
+        // Horários para Pronto Atendimento
+        if (fimDeSemana) {
+          // Fim de semana
+          valorHora = (h >= 7 && h < 19) ? 60 : 70; // 07h-19h é 60, 19h-07h (noturno) é 70
+        } else {
+          // Dia útil
+          valorHora = (h >= 7 && h < 19) ? 50 : 70; // 07h-19h é 50, 19h-07h (noturno) é 70
+        }
+      } else if (tipoPlantao === 'Lider') {
+        // Horários para Líder
+        if (h >= 9 && h < 17) { // Para Líder, apenas o horário 09h-17h é considerado
+          valorHora = fimDeSemana ? 80 : 70; // Fim de semana é 80, Dia útil é 70
+        } else {
+          valorHora = 0; // Horas fora do intervalo 09h-17h para Líder não contam para o fixo
+        }
       }
-      if (tipoPlantao === 'Lider' && h >= 9 && h < 17) {
-        return total + (fimDeSemana ? 80 : 70);
-      }
-      return total;
+      
+      console.log(`Hora: ${format(hora, 'HH:mm')}, Dia Semana: ${diaSemana} (Fim de Semana: ${fimDeSemana}), Valor da Hora: ${valorHora}`);
+      return total + valorHora;
     }, 0);
   };
 
@@ -147,11 +167,11 @@ export default function PlantaoApp() {
     const darkGray = [50, 50, 50];
     const paddingAfterLabel = 2; // Espaçamento fixo após o rótulo
 
-    // --- Início da seção de depuração ---
-    console.log('--- Debugging PDF Filename Generation ---');
-    console.log('Current nomePlantonista state:', nomePlantonista);
-    console.log('Current dataInicioPlantao state:', dataInicioPlantao);
-    // --- Fim da seção de depuração ---
+    // --- Início da seção de depuração ---
+    console.log('--- Debugging PDF Filename Generation ---');
+    console.log('Current nomePlantonista state:', nomePlantonista);
+    console.log('Current dataInicioPlantao state:', dataInicioPlantao);
+    // --- Fim da seção de depuração ---
 
     // Título Principal
     doc.setFontSize(22);
@@ -336,29 +356,29 @@ export default function PlantaoApp() {
       { align: 'left' }
     );
 
-    // Lógica para nomear o arquivo PDF
-    const startDate = new Date(dataInicioPlantao);
-    let formattedDate = '';
-    if (dataInicioPlantao && isValid(startDate)) { // Verifica se a data é válida
-        formattedDate = format(startDate, 'dd-MM-yyyy');
-    } else {
-        formattedDate = 'Data-Indefinida'; // Fallback para data inválida
-    }
+    // Lógica para nomear o arquivo PDF
+    const startDate = new Date(dataInicioPlantao);
+    let formattedDate = '';
+    if (dataInicioPlantao && isValid(startDate)) { // Verifica se a data é válida
+        formattedDate = format(startDate, 'dd-MM-yyyy');
+    } else {
+        formattedDate = 'Data-Indefinida'; // Fallback para data inválida
+    }
 
-    const cleanedPlantonistaName = nomePlantonista.trim().replace(/\s+/g, '-'); // Remove espaços extras e substitui por hífen
-    
-    let filename = `relatorio-plantao.pdf`; // Nome de arquivo padrão
-    if (cleanedPlantonistaName && formattedDate !== 'Data-Indefinida') {
-        filename = `${cleanedPlantonistaName}-${formattedDate}.pdf`;
-    } else if (cleanedPlantonistaName) {
-        filename = `${cleanedPlantonistaName}-relatorio.pdf`;
-    } else if (formattedDate !== 'Data-Indefinida') {
-        filename = `relatorio-${formattedDate}.pdf`;
-    }
+    const cleanedPlantonistaName = nomePlantonista.trim().replace(/\s+/g, '-'); // Remove espaços extras e substitui por hífen
+    
+    let filename = `relatorio-plantao.pdf`; // Nome de arquivo padrão
+    if (cleanedPlantonistaName && formattedDate !== 'Data-Indefinida') {
+        filename = `${cleanedPlantonistaName}-${formattedDate}.pdf`;
+    } else if (cleanedPlantonistaName) {
+        filename = `${cleanedPlantonistaName}-relatorio.pdf`;
+    } else if (formattedDate !== 'Data-Indefinida') {
+        filename = `relatorio-${formattedDate}.pdf`;
+    }
 
-    console.log('Final filename generated:', filename); // Confirma o nome final
+    console.log('Final filename generated:', filename); // Confirma o nome final
 
-    doc.save(filename);
+    doc.save(filename);
   };
 
   const adicionarPaciente = () => {
@@ -513,6 +533,14 @@ export default function PlantaoApp() {
     <div className="registro-container">
       <div className="header-box">
         <h1>Registro de Plantão</h1>
+        {/* Botão Voltar no topo para conveniência */}
+        <Button
+            onClick={voltarParaInicio}
+            variant="outline"
+            className="absolute top-4 right-4" // Tailwind classes for positioning
+        >
+            Voltar ao Início
+        </Button>
       </div>
 
       <div className="registro-info">
