@@ -24,7 +24,6 @@
   },
   "devDependencies": {
     "react-scripts": "latest"
-<<<<<<< HEAD
   },
   "browserslist": {
     "production": [
@@ -37,7 +36,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-=======
->>>>>>> 0e0d72ef0ffe35c709d367ba866e0519b1e161e0
   }
 }
