@@ -7,10 +7,10 @@ body {
   font-family: 'Nunito Sans', sans-serif;
   background-color: #f0f2f5;
   color: #333;
-  font-size: 15px;
+  font-size: 15px; /* Mantido em 15px para o ajuste anterior da fonte */
   line-height: 1.6;
   min-height: 100vh;
-  padding: 15px;
+  padding: 15px; /* Reduzido de 20px */
   box-sizing: border-box;
 }
 
@@ -18,7 +18,7 @@ h1 {
   font-weight: 700;
   color: #b30c0c;
   font-size: 1.9em;
-  margin-bottom: 0.4em;
+  margin-bottom: 0.4em; /* Reduzido de 0.5em */
   text-align: center;
 }
 
@@ -26,17 +26,17 @@ h2 {
   font-weight: 700;
   color: #555;
   font-size: 1.5em;
-  margin-top: 1em;
-  margin-bottom: 0.6em;
+  margin-top: 1em; /* Reduzido de 1.5em */
+  margin-bottom: 0.6em; /* Reduzido de 0.8em */
   text-align: center;
 }
 
 .card {
   background: #fff;
   border-radius: 12px;
-  padding: 25px;
+  padding: 25px; /* Reduzido de 30px */
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  margin: 25px auto;
+  margin: 25px auto; /* Reduzido de 30px */
   max-width: 900px;
   width: 100%;
   box-sizing: border-box;
@@ -46,8 +46,8 @@ label {
   display: block;
   font-weight: 700;
   font-size: 1em;
-  margin-bottom: 10px;
-  margin-top: 18px;
+  margin-bottom: 10px; /* Reduzido de 12px */
+  margin-top: 18px; /* Reduzido de 20px */
   color: #444;
   line-height: 1.5;
 }
@@ -56,7 +56,7 @@ input,
 select,
 textarea {
   width: 100%;
-  padding: 10px 12px;
+  padding: 10px 12px; /* Reduzido de 12px 15px */
   border: 1px solid #ddd;
   border-radius: 8px;
   font-size: 1em;
@@ -76,7 +76,7 @@ textarea:focus {
 }
 
 button {
-  padding: 10px 18px;
+  padding: 10px 18px; /* Reduzido de 12px 20px */
   background-color: #b30c0c;
   color: white;
   font-weight: 600;
@@ -108,8 +108,8 @@ button:disabled {
   font-weight: 700;
   cursor: pointer;
   line-height: 1.2;
-  margin-bottom: 8px;
-  gap: 8px;
+  margin-bottom: 8px; /* Reduzido de 10px */
+  gap: 8px; /* Reduzido de 10px */
   color: #333;
 }
 
@@ -119,13 +119,31 @@ button:disabled {
   height: 18px;
 }
 
+.textarea {
+  min-height: 90px; /* Reduzido de 100px */
+  resize: vertical;
+}
+
+.field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px; /* Reduzido de 10px */
+  margin-bottom: 15px; /* Reduzido de 20px */
+}
+
+.botao-alinhado {
+  display: flex;
+  justify-content: flex-start;
+  margin-top: 15px; /* Reduzido de 20px */
+}
+
 .SelectTrigger {
   display: flex !important;
   justify-content: space-between;
   align-items: center;
   border: none !important;
   border-radius: 8px !important;
-  padding: 10px 12px !important;
+  padding: 10px 12px !important; /* Reduzido de 12px 15px */
   font-size: 1em !important;
   background-color: #b30c0c !important;
   color: white !important;
@@ -155,7 +173,7 @@ button:disabled {
 }
 
 .SelectItem {
-  padding: 10px 12px;
+  padding: 10px 12px; /* Reduzido de 12px 15px */
   cursor: pointer;
   font-size: 1em;
   transition: background-color 0.2s ease;
@@ -179,34 +197,17 @@ button:disabled {
   color: #b30c0c;
 }
 
-.header-box {
-  background-color: #b30c0c;
-  padding: 20px;
-  border-radius: 12px 12px 0 0;
-  text-align: center;
-  position: relative; /* Adicionado para o botão Voltar funcionar */
-}
-
-.header-box h1 {
-  color: #fff;
-  font-size: 2em;
-  margin: 0;
-  padding: 0;
-}
-
-/* Botão "Voltar ao Início" no topo */
-.header-box .absolute.top-4.right-4 {
-  position: absolute;
-  top: 15px;
-  right: 15px;
-  padding: 8px 12px;
-  font-size: 0.9em;
-  border-radius: 8px;
+.title-divider {
+  border: none;
+  border-top: 3px solid #b30c0c;
+  margin-top: 6px; /* Reduzido de 8px */
+  margin-bottom: 15px; /* Reduzido de 20px */
+  width: 100%;
 }
 
 .registro-container,
 .inicio-container {
-  padding: 25px;
+  padding: 25px; /* Reduzido de 30px */
   width: 100%;
   max-width: 900px;
   background-color: #fff;
@@ -217,85 +218,135 @@ button:disabled {
   margin-right: auto;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 12px; /* Reduzido de 15px */
 }
 
-.registro-info {
-  margin-bottom: 12px;
-  padding: 12px;
+.registro-info,
+.inicio-info {
+  margin-bottom: 12px; /* Reduzido de 15px */
+  padding: 12px; /* Reduzido de 15px */
   background-color: #f8f8f8;
   border-radius: 8px;
   border: 1px solid #eee;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
-.registro-info p {
-  margin: 6px 0;
+.registro-info p,
+.inicio-info p {
+  margin: 6px 0; /* Reduzido de 8px */
   font-size: 1em;
   font-weight: 700;
   color: #555;
   word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
-.registro-inputs {
+.registro-inputs,
+.inicio-inputs {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 8px; /* Reduzido de 10px */
+}
+
+.textarea-registro {
+  min-height: 90px;
+  resize: vertical;
+}
+
+.botoes-registro,
+.botoes-inicio {
+  display: flex;
+  flex-direction: column;
+  gap: 8px; /* Reduzido de 10px */
+  margin-top: 15px; /* Reduzido de 20px */
+}
+
+.botao-grande {
+  width: 100%;
+  padding: 12px 18px; /* Reduzido de 15px 20px */
+  font-size: 1.05em;
+  font-weight: 700;
+  background-color: #b30c0c;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease,
+    box-shadow 0.2s ease;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.botao-grande:hover:not(:disabled) {
+  background-color: #910a0a;
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
 }
 
 .pacientes-list {
-  margin-top: 20px;
+  margin-top: 20px; /* Reduzido de 25px */
   border-top: 1px solid #eee;
-  padding-top: 12px;
+  padding-top: 12px; /* Reduzido de 15px */
 }
 
 .pacientes-list h2 {
   font-size: 1.25em;
   color: #b30c0c;
-  margin-bottom: 12px;
+  margin-bottom: 12px; /* Reduzido de 15px */
   text-align: left;
   border-bottom: 2px solid #b30c0c;
-  padding-bottom: 6px;
+  padding-bottom: 6px; /* Reduzido de 8px */
 }
 
 .paciente-card {
   background-color: #fafafa;
   border: 1px solid #e0e0e0;
   border-radius: 8px;
-  padding: 10px;
-  margin-bottom: 10px;
+  padding: 10px; /* Reduzido de 12px */
+  margin-bottom: 10px; /* Reduzido de 12px */
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  /* Removi o position: relative daqui, pois ele deve estar no .paciente-card-content */
 }
 
 .paciente-card-content {
   flex-grow: 1;
   display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  position: relative;
+  justify-content: space-between; /* Mantém o botão à direita */
+  align-items: flex-start; /* Alinha os itens ao topo, permitindo que o botão desça */
+  position: relative; /* ESSENCIAL para o posicionamento do emoji */
+  padding-right: 60px; /* Adiciona um espaço para o emoji não sobrepor o texto */
 }
 
 .paciente-card-content p {
-  margin: 3px 0;
+  margin: 3px 0; /* Reduzido de 4px */
   font-size: 0.88em;
   word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 .paciente-card-content p strong {
   color: #666;
 }
 
-.incomplete-patient-indicator {
-  position: absolute;
-  top: 5px;
-  right: 5px;
-  font-size: 1.7em;
-  color: red;
-  z-index: 10;
+.paciente-card .button {
+  /* Alterei para .button para ser mais específico se necessário */
+  margin-left: 10px; /* Reduzido de 15px */
+  padding: 6px 10px; /* Reduzido de 7px 12px */
+  font-size: 0.8em;
+  background-color: #337ab7; /* Cor do botão de editar */
+  box-shadow: none;
+  flex-shrink: 0;
+  margin-top: 15px; /* Adicionado para empurrar o botão para baixo */
+}
+
+.paciente-card .button:hover {
+  background-color: #286090;
+  transform: translateY(-1px);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .totais-plantao {
-  margin-top: 20px;
-  padding-top: 12px;
+  margin-top: 20px; /* Reduzido de 25px */
+  padding-top: 12px; /* Reduzido de 15px */
   border-top: 1px solid #eee;
   text-align: center;
 }
@@ -304,5 +355,207 @@ button:disabled {
   font-size: 1em;
   font-weight: 700;
   color: #333;
-  margin-bottom: 6px;
+  margin-bottom: 6px; /* Reduzido de 8px */
+}
+
+/* Novo estilo para o indicador de paciente incompleto */
+.incomplete-patient-indicator {
+  position: absolute;
+  top: 5px; /* Ajuste conforme necessário para o espaçamento do topo */
+  right: 5px; /* Ajuste conforme necessário para o espaçamento da direita */
+  font-size: 1.7em; /* Aumentei um pouco o tamanho */
+  color: red; /* O emoji é vermelho, mas se quiser garantir a cor */
+  z-index: 10; /* Garante que o emoji fique acima de outros elementos */
+}
+
+/* --- Media Queries para Responsividade --- */
+
+@media (max-width: 768px) {
+  body {
+    padding: 10px; /* Reduzido de 15px */
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  .registro-container,
+  .inicio-container {
+    padding: 18px; /* Reduzido de 20px */
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    max-width: 100%;
+    width: auto;
+    gap: 10px; /* Reduzido de 12px */
+  }
+
+  h1 {
+    font-size: 1.7em;
+  }
+
+  h2 {
+    font-size: 1.3em;
+  }
+
+  label {
+    font-size: 0.9em;
+    margin-top: 12px; /* Ajuste se necessário */
+    margin-bottom: 8px; /* Ajuste se necessário */
+  }
+
+  input,
+  select,
+  textarea,
+  button {
+    padding: 8px 10px; /* Reduzido de 10px 12px */
+    font-size: 0.88em;
+  }
+
+  .botao-grande {
+    padding: 10px 12px; /* Reduzido de 12px 15px */
+    font-size: 0.95em;
+  }
+
+  .checkbox-linha {
+    font-size: 0.88em;
+  }
+
+  .registro-info p,
+  .totais-plantao p {
+    font-size: 0.92em;
+    margin: 5px 0; /* Reduzido de 6px 0 */
+  }
+
+  .pacientes-list h2 {
+    font-size: 1.15em;
+    margin-bottom: 10px; /* Reduzido de 12px */
+    padding-bottom: 5px; /* Reduzido de 6px */
+  }
+
+  .paciente-card {
+    padding: 8px; /* Reduzido de 10px */
+    margin-bottom: 8px; /* Reduzido de 10px */
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .paciente-card-content {
+    flex-direction: column; /* Coloca o conteúdo e o botão um abaixo do outro */
+    align-items: flex-start; /* Alinha o conteúdo à esquerda */
+    width: 100%; /* Garante que o conteúdo ocupe a largura total disponível */
+    padding: 0; /* Remova o padding aqui se já estiver no .paciente-card */
+  }
+
+  .paciente-card-content p {
+    margin: 3px 0; /* Mantido igual */
+    font-size: 0.82em;
+  }
+
+  .paciente-card .button {
+    padding: 5px 8px; /* Reduzido de 6px 10px */
+    font-size: 0.78em;
+    margin-left: 0;
+    margin-top: 10px; /* Ajuste a margem para telas menores */
+    width: 100%; /* Garante que o botão ocupe a largura total */
+  }
+
+  .totais-plantao {
+    margin-top: 15px; /* Reduzido de 20px */
+    padding-top: 10px; /* Reduzido de 12px */
+  }
+
+  .totais-plantao p {
+    margin-bottom: 5px; /* Reduzido de 6px */
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    padding: 8px; /* Reduzido de 10px */
+    font-size: 13px;
+  }
+
+  .registro-container,
+  .inicio-container {
+    padding: 12px; /* Reduzido de 15px */
+    gap: 8px; /* Reduzido de 10px */
+  }
+
+  h1 {
+    font-size: 1.5em;
+  }
+
+  h2 {
+    font-size: 1.15em;
+  }
+
+  label {
+    font-size: 0.88em;
+    margin-top: 8px;
+    margin-bottom: 6px;
+  }
+
+  input,
+  select,
+  textarea,
+  button {
+    padding: 6px 8px; /* Reduzido de 8px 10px */
+    font-size: 0.82em;
+  }
+
+  .botao-grande {
+    padding: 8px 10px; /* Reduzido de 10px 12px */
+    font-size: 0.92em;
+  }
+
+  .checkbox-linha {
+    font-size: 0.82em;
+  }
+
+  .registro-info p,
+  .totais-plantao p {
+    font-size: 0.88em;
+    margin: 4px 0; /* Reduzido de 5px 0 */
+  }
+
+  .pacientes-list h2 {
+    font-size: 1.05em;
+    margin-bottom: 8px; /* Reduzido de 10px */
+    padding-bottom: 4px; /* Reduzido de 5px */
+  }
+
+  .paciente-card-content p {
+    margin: 2px 0; /* Reduzido de 3px */
+    font-size: 0.78em;
+  }
+
+  .paciente-card .button {
+    padding: 4px 6px; /* Reduzido de 5px 8px */
+    font-size: 0.73em;
+  }
+
+  .paciente-card .button {
+    margin-top: 6px; /* Reduzido de 8px */
+  }
+
+  .totais-plantao {
+    margin-top: 12px; /* Reduzido de 15px */
+    padding-top: 8px; /* Reduzido de 10px */
+  }
+
+  .totais-plantao p {
+    margin-bottom: 4px; /* Reduzido de 5px */
+  }
+}
+/* Header estilizado para a tela de Início de Plantão */
+.header-box {
+  background-color: #b30c0c; /* vermelho que você já está usando */
+  padding: 20px;
+  border-radius: 12px 12px 0 0; /* bordas arredondadas só em cima */
+  text-align: center;
+}
+
+.header-box h1 {
+  color: #fff; /* texto branco */
+  font-size: 2em; /* você pode ajustar o tamanho que quiser */
+  margin: 0;
+  padding: 0;
 }
