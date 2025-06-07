@@ -1,38 +1,37 @@
-/* style.css - VERSÃO AJUSTADA E POLIDA */
+/* style.css */
 
-@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700&display=swap');
 
 /* Variáveis CSS para cores e espaçamentos comuns */
 :root {
   --primary-red: #b30c0c;
   --dark-red: #910a0a;
   --background-light-gray: #f0f2f5;
-  --text-dark: #2c2c2c; /* Levemente mais escuro para contraste */
+  --text-dark: #333;
   --text-medium: #555;
-  --text-light: #666; /* Ajustado para um tom mais suave para labels */
+  --text-light: #444;
   --card-background: #fff;
-  --card-border-light: #e8e8e8; /* Levemente mais claro */
-  --card-background-alt: #fbfbfb; /* Mais claro para seções dentro do card */
+  --card-border-light: #e0e0e0;
+  --card-background-alt: #fafafa;
   --info-box-background: #f8f8f8;
-  --border-light: #e0e0e0; /* Um pouco mais escuro para bordas gerais */
-  --border-lighter: #f0f0f0; /* Para divisórias e linhas mais sutis */
-  --shadow-light: rgba(0, 0, 0, 0.08); /* Sombra mais sutil */
-  --shadow-medium: rgba(0, 0, 0, 0.1);
+  --border-light: #ddd;
+  --border-lighter: #eee;
+  --shadow-light: rgba(0, 0, 0, 0.1);
+  --shadow-medium: rgba(0, 0, 0, 0.12);
   --shadow-strong: rgba(0, 0, 0, 0.15);
-  --focus-shadow: rgba(179, 12, 12, 0.25); /* Sombra de foco mais visível */
-  --button-blue: #2a6f9f; /* Um azul mais profundo */
-  --button-blue-hover: #1f5a81; /* Escuro no hover */
-  --disabled-gray: #d0d0d0; /* Um cinza um pouco mais claro */
-  --checked-background: #ffebeb; /* Um rosa bem suave para checked */
+  --focus-shadow: rgba(179, 12, 12, 0.2);
+  --button-blue: #337ab7;
+  --button-blue-hover: #286090;
+  --disabled-gray: #cccccc;
+  --checked-background: #f4eaea;
 
-  /* Spacings (atualizados para um fluxo mais suave) */
-  --spacing-xs: 6px;
-  --spacing-sm: 10px;
-  --spacing-md: 14px;
-  --spacing-lg: 18px;
-  --spacing-xl: 26px;
-  --spacing-xxl: 36px;
-  --spacing-xxxl: 48px; /* Adicionado para margens maiores */
+  /* Spacings */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 12px;
+  --spacing-lg: 16px; /* Ajustado de 15px para 16px para maior consistência */
+  --spacing-xl: 24px; /* Ajustado de 20px para 24px para mais respiro */
+  --spacing-xxl: 32px; /* Ajustado de 25px para 32px */
 }
 
 body {
@@ -40,67 +39,62 @@ body {
   font-family: 'Nunito Sans', sans-serif;
   background-color: var(--background-light-gray);
   color: var(--text-dark);
-  font-size: 16px; /* Tamanho base um pouco menor para mais controle */
-  line-height: 1.5; /* Linha de altura padrão */
+  font-size: 17px; /* Levemente reduzido de 18.5px para um visual mais standard */
+  line-height: 1.6; /* Levemente reduzido de 1.7 para melhor legibilidade */
   min-height: 100vh;
-  padding: var(--spacing-lg); /* 18px para preenchimento geral do corpo */
+  padding: var(--spacing-xl); /* 24px */
   box-sizing: border-box;
-  display: flex; /* Para centralizar o conteúdo do app */
-  justify-content: center;
-  align-items: center;
 }
 
 h1 {
-  font-weight: 800; /* Mais bold */
-  color: #fff; /* Título no header é branco */
-  font-size: 2.4em; /* Levemente maior no header */
-  margin: 0; /* Removido margin-bottom para o h1 no header */
+  font-weight: 700;
+  color: var(--primary-red);
+  font-size: 2em; /* Ajustado de 2.2em para um tamanho que harmonize melhor com o header */
+  margin-bottom: 0.4em; /* Mantido para compactar um pouco */
   text-align: center;
-  line-height: 1.1;
 }
 
 h2 {
   font-weight: 700;
   color: var(--text-medium);
-  font-size: 1.6em;
-  margin-top: 1.5em; /* Manter um bom espaçamento antes dos subtítulos */
-  margin-bottom: 0.8em;
+  font-size: 1.6em; /* Ajustado de 1.8em */
+  margin-top: 1.2em; /* Ajustado de 1.5em */
+  margin-bottom: 0.7em; /* Ajustado de 0.8em */
   text-align: center;
 }
 
 .card {
   background: var(--card-background);
-  border-radius: var(--spacing-md); /* 14px */
-  padding: var(--spacing-xxl); /* 36px */
-  box-shadow: 0 6px 18px var(--shadow-medium); /* Sombra mais destacada para o card */
-  margin: var(--spacing-xxl) auto; /* 36px auto */
+  border-radius: var(--spacing-md); /* 12px */
+  padding: var(--spacing-xxl); /* 32px - Ajustado de 30px */
+  box-shadow: 0 4px 12px var(--shadow-light);
+  margin: var(--spacing-xxl) auto; /* 32px auto - Ajustado de 30px */
   max-width: 900px;
   width: 100%;
   box-sizing: border-box;
-  overflow: hidden; /* Garante que nada saia das bordas arredondadas */
 }
 
 label {
   display: block;
   font-weight: 600;
-  font-size: 0.9em; /* Ligeiramente menor */
-  margin-bottom: var(--spacing-xs); /* 6px */
-  margin-top: var(--spacing-lg); /* 18px */
+  font-size: 0.95em; /* Levemente ajustado */
+  margin-bottom: var(--spacing-sm); /* 8px - Ajustado de 12px */
+  margin-top: var(--spacing-xl); /* 24px - Ajustado de 20px */
   color: var(--text-light);
-  line-height: 1.4;
+  line-height: 1.5;
 }
 
 input,
 select,
 textarea {
   width: 100%;
-  padding: var(--spacing-sm) var(--spacing-md); /* 10px 14px */
+  padding: var(--spacing-md) var(--spacing-lg); /* 12px 16px - Ajustado de 12px 15px */
   border: 1px solid var(--border-light);
-  border-radius: var(--spacing-sm); /* 10px */
+  border-radius: var(--spacing-sm); /* 8px */
   font-size: 1em;
   font-family: inherit;
-  background-color: #ffffff; /* Fundo sempre branco */
-  box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.05); /* Sombra interna mais suave */
+  background-color: #fefefe;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.08);
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
   box-sizing: border-box;
 }
@@ -109,76 +103,74 @@ input:focus,
 select:focus,
 textarea:focus {
   border-color: var(--primary-red);
-  box-shadow: 0 0 0 4px var(--focus-shadow); /* Sombra de foco mais pronunciada */
+  box-shadow: 0 0 0 3px var(--focus-shadow);
   outline: none;
 }
 
 button {
-  padding: var(--spacing-md) var(--spacing-xl); /* 14px 26px */
+  padding: var(--spacing-md) var(--spacing-xl); /* 12px 24px - Ajustado de 12px 20px */
   background-color: var(--primary-red);
   color: white;
-  font-weight: 700; /* Mais bold */
-  font-size: 1.05em; /* Ligeiramente maior */
+  font-weight: 600;
+  font-size: 1em;
   border: none;
-  border-radius: var(--spacing-sm); /* 10px */
+  border-radius: var(--spacing-sm); /* 8px */
   cursor: pointer;
-  transition: background-color 0.2s ease, transform 0.15s ease, box-shadow 0.15s ease;
-  box-shadow: 0 4px 10px var(--shadow-medium); /* Sombra para botões */
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  box-shadow: 0 2px 4px var(--shadow-light);
   text-align: center;
 }
 
 button:hover:not(:disabled) {
   background-color: var(--dark-red);
-  transform: translateY(-3px); /* Efeito de elevação mais pronunciado */
-  box-shadow: 0 6px 14px var(--shadow-strong);
+  transform: translateY(-2px);
 }
 
 button:disabled {
   background-color: var(--disabled-gray);
   cursor: not-allowed;
-  opacity: 0.8;
+  opacity: 0.7;
   box-shadow: none;
-  transform: none;
 }
 
 .checkbox-linha {
   display: flex;
   align-items: center;
-  font-size: 0.95em;
+  font-size: 1em;
   font-weight: 600;
   cursor: pointer;
-  line-height: 1.3;
-  margin-bottom: var(--spacing-xs); /* 6px */
-  gap: var(--spacing-sm); /* 10px */
+  line-height: 1.2;
+  margin-bottom: var(--spacing-sm); /* 8px - Ajustado de 10px */
+  gap: var(--spacing-sm); /* 8px - Ajustado de 10px */
   color: var(--text-dark);
 }
 
 .checkbox-linha input[type='checkbox'] {
   margin: 0;
-  width: 20px; /* Um pouco maior */
-  height: 20px; /* Um pouco maior */
-  min-width: 20px; /* Garante tamanho mínimo */
-  min-height: 20px;
+  width: 18px;
+  height: 18px;
 }
 
 .textarea-registro {
-  min-height: 120px; /* Um pouco maior para mais espaço de texto */
+  min-height: 100px;
   resize: vertical;
 }
+
+/* Removido .field-group e .botao-alinhado pois não estão sendo usados no App.js */
 
 /* Estilos para Shadcn Select */
 .SelectTrigger {
   display: flex !important;
   justify-content: space-between;
   align-items: center;
-  border: 1px solid var(--border-light) !important;
-  border-radius: var(--spacing-sm) !important; /* 10px */
-  padding: var(--spacing-sm) var(--spacing-md) !important; /* 10px 14px */
+  border: 1px solid var(--border-light) !important; /* Adicionado borda para consistência com inputs */
+  border-radius: var(--spacing-sm) !important; /* 8px */
+  padding: var(--spacing-md) var(--spacing-lg) !important; /* 12px 16px */
   font-size: 1em !important;
-  background-color: #ffffff !important;
-  color: var(--text-dark) !important;
-  font-weight: 400 !important;
-  box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.05);
+  background-color: #fefefe !important; /* Cor de fundo branca para consistência */
+  color: var(--text-dark) !important; /* Cor de texto padrão */
+  font-weight: 400 !important; /* Peso da fonte normal */
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.08); /* Sombra interna para consistência */
   cursor: pointer;
   width: 100%;
   height: auto;
@@ -186,30 +178,30 @@ button:disabled {
 }
 
 .SelectTrigger * {
-  color: var(--text-dark) !important;
+  color: var(--text-dark) !important; /* Garante que o texto dentro seja escuro */
 }
 
 .SelectTrigger:hover {
-  background-color: #f8f8f8 !important; /* Levemente mais escuro no hover */
+  background-color: #f5f5f5 !important; /* Um cinza claro no hover */
   border-color: var(--primary-red) !important;
 }
 
-.SelectTrigger[data-state="open"] {
+.SelectTrigger[data-state="open"] { /* Estilo quando o select está aberto */
     border-color: var(--primary-red) !important;
-    box-shadow: 0 0 0 4px var(--focus-shadow) !important;
+    box-shadow: 0 0 0 3px var(--focus-shadow) !important;
 }
 
 .SelectContent {
-  border-radius: var(--spacing-sm); /* 10px */
+  border-radius: var(--spacing-sm); /* 8px */
   background-color: var(--card-background);
-  box-shadow: 0px 8px 18px var(--shadow-medium); /* Sombra mais pronunciada */
+  box-shadow: 0px 8px 16px var(--shadow-strong);
   width: var(--radix-select-trigger-width);
   overflow: hidden;
   z-index: 10;
 }
 
 .SelectItem {
-  padding: var(--spacing-sm) var(--spacing-md); /* 10px 14px */
+  padding: var(--spacing-md) var(--spacing-lg); /* 12px 16px */
   cursor: pointer;
   font-size: 1em;
   transition: background-color 0.2s ease;
@@ -223,54 +215,54 @@ button:disabled {
 
 .SelectItem:hover,
 .SelectItem[data-highlighted] {
-  background-color: #f5f5f5; /* Um cinza mais suave no hover */
+  background-color: #f0f0f0;
   outline: none;
 }
 
 .SelectItem[data-state='checked'] {
   background-color: var(--checked-background);
-  font-weight: 700; /* Mais bold quando selecionado */
+  font-weight: 600;
   color: var(--primary-red);
 }
 
-.title-divider { /* Para o futuro, se usado */
+.title-divider {
   border: none;
   border-top: 3px solid var(--primary-red);
-  margin-top: var(--spacing-xs); /* 6px */
-  margin-bottom: var(--spacing-lg); /* 18px */
+  margin-top: 6px;
+  margin-bottom: var(--spacing-lg); /* 16px */
   width: 100%;
 }
 
 .registro-container,
 .inicio-container {
-  padding: var(--spacing-xxl); /* 36px */
+  padding: var(--spacing-xxl); /* 32px - Ajustado de 30px */
   width: 100%;
   max-width: 900px;
   background-color: var(--card-background);
-  border-radius: var(--spacing-md); /* 14px */
-  box-shadow: 0 8px 24px var(--shadow-medium); /* Sombra mais forte */
+  border-radius: var(--spacing-md); /* 12px */
+  box-shadow: 0 6px 20px var(--shadow-medium);
   box-sizing: border-box;
   margin-left: auto;
   margin-right: auto;
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-lg); /* 18px */
+  gap: var(--spacing-xl); /* 24px - Ajustado de 15px */
 }
 
 .registro-info,
 .inicio-info {
-  margin-bottom: var(--spacing-sm); /* 10px */
-  padding: var(--spacing-md); /* 14px */
+  margin-bottom: var(--spacing-md); /* 12px - Ajustado de 15px */
+  padding: var(--spacing-md); /* 12px - Ajustado de 15px */
   background-color: var(--info-box-background);
-  border-radius: var(--spacing-sm); /* 10px */
+  border-radius: var(--spacing-sm); /* 8px */
   border: 1px solid var(--border-lighter);
-  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.03); /* Sombra interna mais leve */
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
 .registro-info p,
 .inicio-info p {
-  margin: var(--spacing-xs) 0; /* 6px 0 */
-  font-size: 0.9em;
+  margin: var(--spacing-sm) 0; /* 8px 0 */
+  font-size: 0.95em; /* Levemente ajustado */
   font-weight: 600;
   color: var(--text-medium);
   word-wrap: break-word;
@@ -281,60 +273,59 @@ button:disabled {
 .inicio-inputs {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-lg); /* 18px */
+  gap: var(--spacing-lg); /* 16px - Ajustado de 12px */
 }
 
 .botoes-registro,
 .botoes-inicio {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-md); /* 14px */
-  margin-top: var(--spacing-xl); /* 26px */
+  gap: var(--spacing-md); /* 12px - Ajustado de 10px */
+  margin-top: var(--spacing-xl); /* 24px - Ajustado de 20px */
 }
 
 .botao-grande {
   width: 100%;
-  padding: var(--spacing-lg) var(--spacing-xl); /* 18px 26px */
-  font-size: 1.1em;
+  padding: var(--spacing-lg) var(--spacing-xl); /* 16px 24px - Ajustado de 15px 20px */
+  font-size: 1.05em; /* Ajustado de 1.1em */
   font-weight: 700;
   background-color: var(--primary-red);
   color: white;
   border: none;
-  border-radius: var(--spacing-sm); /* 10px */
+  border-radius: var(--spacing-sm); /* 8px */
   cursor: pointer;
-  transition: background-color 0.2s ease, transform 0.15s ease,
-    box-shadow 0.15s ease;
-  box-shadow: 0 5px 12px var(--shadow-medium); /* Sombra para este botão */
+  transition: background-color 0.3s ease, transform 0.2s ease,
+    box-shadow 0.2s ease;
+  box-shadow: 0 4px 8px var(--shadow-strong);
 }
 
 .botao-grande:hover:not(:disabled) {
   background-color: var(--dark-red);
-  transform: translateY(-3px);
-  box-shadow: 0 7px 16px var(--shadow-strong);
+  transform: translateY(-2px);
 }
 
 .pacientes-list {
-  margin-top: var(--spacing-xxl); /* 36px */
+  margin-top: var(--spacing-xxl); /* 32px - Ajustado de 25px */
   border-top: 1px solid var(--border-lighter);
-  padding-top: var(--spacing-lg); /* 18px */
+  padding-top: var(--spacing-lg); /* 16px - Ajustado de 15px */
 }
 
 .pacientes-list h2 {
-  font-size: 1.3em;
+  font-size: 1.2em; /* Ajustado de 1.3em */
   color: var(--primary-red);
-  margin-bottom: var(--spacing-lg); /* 18px */
+  margin-bottom: var(--spacing-lg); /* 16px - Ajustado de 15px */
   text-align: left;
   border-bottom: 2px solid var(--primary-red);
-  padding-bottom: var(--spacing-sm); /* 10px */
+  padding-bottom: var(--spacing-sm); /* 8px */
 }
 
 .paciente-card {
   background-color: var(--card-background-alt);
   border: 1px solid var(--card-border-light);
-  border-radius: var(--spacing-sm); /* 10px */
-  padding: var(--spacing-md); /* 14px */
-  margin-bottom: var(--spacing-md); /* 14px */
-  box-shadow: 0 2px 8px var(--shadow-light); /* Sombra mais leve */
+  border-radius: var(--spacing-sm); /* 8px */
+  padding: var(--spacing-md); /* 12px */
+  margin-bottom: var(--spacing-md); /* 12px */
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
 }
 
 .paciente-card-content {
@@ -343,40 +334,39 @@ button:disabled {
   justify-content: space-between;
   align-items: flex-start;
   position: relative;
-  padding-right: 70px; /* Aumentado para mais espaço para o indicador */
+  padding-right: 60px; /* Espaço para o indicador de paciente incompleto */
 }
 
 .paciente-card-content p {
-  margin: var(--spacing-xs) 0; /* 6px 0 */
-  font-size: 0.88em; /* Um pouco menor para detalhe */
+  margin: var(--spacing-xs) 0; /* 4px 0 */
+  font-size: 0.9em;
   word-wrap: break-word;
   overflow-wrap: break-word;
 }
 
 .paciente-card-content p strong {
-  color: var(--text-medium);
+  color: #666;
 }
 
 .paciente-card .button {
-  margin-left: var(--spacing-md); /* 14px */
-  padding: var(--spacing-xs) var(--spacing-sm); /* 6px 10px */
-  font-size: 0.75em;
+  margin-left: var(--spacing-lg); /* 16px - Ajustado de 15px */
+  padding: 7px var(--spacing-md); /* 7px 12px */
+  font-size: 0.8em;
   background-color: var(--button-blue);
   box-shadow: none;
   flex-shrink: 0;
-  margin-top: var(--spacing-md); /* 14px */
-  border-radius: var(--spacing-xs); /* Pequeno arredondamento */
+  margin-top: var(--spacing-md); /* 12px - Ajustado de 15px */
 }
 
 .paciente-card .button:hover {
   background-color: var(--button-blue-hover);
   transform: translateY(-1px);
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 3px var(--shadow-light);
 }
 
 .totais-plantao {
-  margin-top: var(--spacing-xxl); /* 36px */
-  padding-top: var(--spacing-lg); /* 18px */
+  margin-top: var(--spacing-xxl); /* 32px - Ajustado de 25px */
+  padding-top: var(--spacing-lg); /* 16px - Ajustado de 15px */
   border-top: 1px solid var(--border-lighter);
   text-align: center;
 }
@@ -385,103 +375,99 @@ button:disabled {
   font-size: 1em;
   font-weight: 700;
   color: var(--text-dark);
-  margin-bottom: var(--spacing-sm); /* 10px */
+  margin-bottom: var(--spacing-sm); /* 8px */
 }
 
 .incomplete-patient-indicator {
   position: absolute;
   top: 5px;
   right: 5px;
-  font-size: 1.8em; /* Aumentado para mais visibilidade */
-  color: #ff6347; /* Um vermelho mais vibrante */
+  font-size: 1.5em;
+  color: red;
   z-index: 10;
 }
 
 .header-box {
   background-color: var(--primary-red);
-  padding: var(--spacing-xxl) var(--spacing-xl) var(--spacing-lg); /* 36px 26px 18px */
-  border-radius: var(--spacing-md) var(--spacing-md) 0 0; /* 14px */
+  padding: var(--spacing-xl) var(--spacing-xl) var(--spacing-lg); /* 24px 24px 16px - Mais padding no topo e laterais, menos no fundo */
+  border-radius: var(--spacing-md) var(--spacing-md) 0 0; /* 12px */
   text-align: center;
-  position: relative;
-  width: 100%; /* Garante que preencha a largura do container */
+  position: relative; /* ESSENCIAL para o botão absoluto dentro */
 }
 
-/* Footer de direitos reservados */
-.footer-text {
-  text-align: center;
-  margin-top: var(--spacing-xxl); /* 36px */
-  padding: var(--spacing-sm) 0; /* 10px 0 */
-  font-size: 0.8em; /* Ligeiramente menor */
-  color: #888;
-  border-top: 1px solid var(--border-lighter);
+.header-box h1 {
+  color: #fff;
+  font-size: 2.2em; /* Mantido para que o título seja grande dentro do cabeçalho */
+  margin: 0;
+  padding: 0;
+  line-height: 1.2; /* Para centralizar o texto verticalmente se houver mais de uma linha */
 }
-
 
 /* --- Media Queries para Responsividade --- */
 
 @media (max-width: 768px) {
   body {
-    padding: var(--spacing-md); /* 14px */
-    font-size: 15px;
-    line-height: 1.4;
+    padding: var(--spacing-lg); /* 16px */
+    font-size: 14px;
+    line-height: 1.5;
   }
 
   .registro-container,
   .inicio-container {
-    padding: var(--spacing-xl); /* 26px */
-    border-radius: var(--spacing-sm); /* 10px */
-    box-shadow: 0 4px 12px var(--shadow-light);
+    padding: var(--spacing-xl); /* 24px */
+    border-radius: var(--spacing-sm); /* 8px */
+    box-shadow: 0 4px 15px var(--shadow-light);
     max-width: 100%;
     width: auto;
-    gap: var(--spacing-md); /* 14px */
+    gap: var(--spacing-md); /* 12px */
   }
 
   h1 {
-    font-size: 2em;
+    font-size: 1.7em;
   }
 
   h2 {
-    font-size: 1.4em;
+    font-size: 1.3em;
   }
 
   label {
-    font-size: 0.88em;
-    margin-top: var(--spacing-md); /* 14px */
-    margin-bottom: var(--spacing-xs); /* 6px */
+    font-size: 0.9em;
+    margin-top: var(--spacing-md); /* 12px */
+    margin-bottom: var(--spacing-sm); /* 8px */
   }
 
   input,
   select,
   textarea,
   button {
-    padding: var(--spacing-xs) var(--spacing-sm); /* 6px 10px */
-    font-size: 0.9em;
+    padding: var(--spacing-sm) 10px; /* 8px 10px */
+    font-size: 0.88em;
   }
 
   .botao-grande {
-    padding: var(--spacing-md) var(--spacing-md); /* 14px 14px */
-    font-size: 1em;
+    padding: var(--spacing-md) 12px; /* 12px 12px */
+    font-size: 0.95em;
   }
 
   .checkbox-linha {
-    font-size: 0.9em;
+    font-size: 0.88em;
   }
 
   .registro-info p,
   .totais-plantao p {
-    font-size: 0.9em;
-    margin: var(--spacing-xs) 0;
+    font-size: 0.92em;
+    margin: 5px 0;
   }
 
   .pacientes-list h2 {
-    font-size: 1.1em;
-    margin-bottom: var(--spacing-md); /* 14px */
-    padding-bottom: var(--spacing-xs); /* 6px */
+    font-size: 1.15em;
+    margin-bottom: var(--spacing-md); /* 12px */
+    padding-bottom: 5px;
   }
 
   .paciente-card {
-    padding: var(--spacing-sm); /* 10px */
-    margin-bottom: var(--spacing-sm); /* 10px */
+    padding: var(--spacing-sm); /* 8px */
+    margin-bottom: var(--spacing-sm); /* 8px */
     flex-direction: column;
     align-items: flex-start;
   }
@@ -491,112 +477,103 @@ button:disabled {
     align-items: flex-start;
     width: 100%;
     padding: 0;
-    padding-right: 0; /* Remove padding extra para celular */
   }
 
   .paciente-card-content p {
-    margin: var(--spacing-xs) 0;
-    font-size: 0.85em;
+    margin: var(--spacing-xs) 0; /* 4px */
+    font-size: 0.82em;
   }
 
   .paciente-card .button {
-    padding: var(--spacing-xs) var(--spacing-xs); /* 6px 6px */
-    font-size: 0.7em;
+    padding: 5px var(--spacing-sm); /* 5px 8px */
+    font-size: 0.78em;
     margin-left: 0;
-    margin-top: var(--spacing-sm); /* 10px */
+    margin-top: var(--spacing-md); /* 12px */
     width: 100%;
   }
 
   .totais-plantao {
-    margin-top: var(--spacing-xl); /* 26px */
-    padding-top: var(--spacing-md); /* 14px */
+    margin-top: var(--spacing-lg); /* 16px */
+    padding-top: 10px;
   }
 
   .totais-plantao p {
-    margin-bottom: var(--spacing-xs); /* 6px */
-  }
-
-  .incomplete-patient-indicator {
-    font-size: 1.5em; /* Ajustado para telas menores */
-  }
-
-  .header-box {
-    padding: var(--spacing-xl) var(--spacing-lg) var(--spacing-md); /* 26px 18px 14px */
+    margin-bottom: 5px;
   }
 }
 
 @media (max-width: 480px) {
   body {
-    padding: var(--spacing-sm); /* 10px */
-    font-size: 14px;
+    padding: var(--spacing-sm); /* 8px */
+    font-size: 13px;
   }
 
   .registro-container,
   .inicio-container {
-    padding: var(--spacing-lg); /* 18px */
-    gap: var(--spacing-md); /* 14px */
+    padding: var(--spacing-md); /* 12px */
+    gap: var(--spacing-sm); /* 8px */
   }
 
   h1 {
-    font-size: 1.8em;
+    font-size: 1.5em;
   }
 
   h2 {
-    font-size: 1.2em;
+    font-size: 1.15em;
   }
 
   label {
-    font-size: 0.85em;
-    margin-top: var(--spacing-sm); /* 10px */
-    margin-bottom: 4px;
+    font-size: 0.88em;
+    margin-top: var(--spacing-sm); /* 8px */
+    margin-bottom: 6px;
   }
 
   input,
   select,
   textarea,
   button {
-    padding: 4px var(--spacing-xs); /* 4px 6px */
-    font-size: 0.85em;
+    padding: 6px var(--spacing-sm); /* 6px 8px */
+    font-size: 0.82em;
   }
 
   .botao-grande {
-    padding: var(--spacing-sm) 10px; /* 10px 10px */
-    font-size: 0.95em;
+    padding: var(--spacing-sm) 10px; /* 8px 10px */
+    font-size: 0.92em;
   }
 
   .checkbox-linha {
-    font-size: 0.85em;
+    font-size: 0.82em;
   }
 
   .registro-info p,
   .totais-plantao p {
-    font-size: 0.85em;
-    margin: 4px 0;
+    font-size: 0.88em;
+    margin: var(--spacing-xs) 0; /* 4px 0 */
   }
 
   .pacientes-list h2 {
-    font-size: 1em;
-    margin-bottom: var(--spacing-md); /* 14px */
+    font-size: 1.05em;
+    margin-bottom: var(--spacing-sm); /* 8px */
     padding-bottom: 4px;
   }
 
   .paciente-card-content p {
     margin: 2px 0;
-    font-size: 0.8em;
+    font-size: 0.78em;
   }
 
   .paciente-card .button {
-    padding: 3px 5px;
-    font-size: 0.7em;
-    margin-top: var(--spacing-xs); /* 6px */
+    padding: var(--spacing-xs) 6px; /* 4px 6px */
+    font-size: 0.73em;
+    margin-top: var(--spacing-sm); /* 8px */
   }
 
   .totais-plantao {
-    margin-top: var(--spacing-lg); /* 18px */
-    padding-top: var(--spacing-md); /* 14px */
+    margin-top: var(--spacing-md); /* 12px */
+    padding-top: var(--spacing-sm); /* 8px */
   }
 
   .totais-plantao p {
-    margin-bottom: 4px;
+    margin-bottom: var(--spacing-xs); /* 4px */
   }
 }
