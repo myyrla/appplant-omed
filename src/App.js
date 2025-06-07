@@ -88,34 +88,45 @@ export default function PlantaoApp() {
       return 0;
     }
 
-    // calcula diferença em milissegundos
-    const diffMs = dataFim.getTime() - dataInicio.getTime();
-    // calcula total de horas exatas
-    const totalHoras = diffMs / (1000 * 60 * 60);
+    // Usar eachHourOfInterval para obter cada hora completa no intervalo
+    // Adicione um milissegundo à data final para garantir que a hora final seja incluída,
+    // ou subtraia um milissegundo para torná-la exclusiva, dependendo da sua regra de negócio.
+    // Para incluir a hora de término se ela for uma hora exata, vamos adicionar 1ms para que a função pegue o último intervalo
+    // e depois ajuste a lógica se o final for "até" a hora final, mas não incluindo-a.
+    // Para esta aplicação, vamos considerar que "às 17:00" significa que a hora das 17:00 não conta.
+    // Então, `end: addHours(dataFim, -1)` é uma abordagem razoável para incluir apenas as horas COMPLETAS ANTES da hora final.
+    const hoursInterval = eachHourOfInterval({
+      start: dataInicio,
+      end: addHours(dataFim, -1), // Inclui horas até ANTES da hora final. Ex: 09:00-17:00 => 09, 10, 11, 12, 13, 14, 15, 16. Total de 8 horas.
+    });
 
     let total = 0;
 
-    for (let i = 0; i < totalHoras; i++) {
-      const horaAtual = new Date(dataInicio.getTime() + i * 60 * 60 * 1000);
-      const h = horaAtual.getHours();
-      const diaSemana = horaAtual.getDay();
-      const fimDeSemana = diaSemana === 0 || diaSemana === 6;
+    hoursInterval.forEach((hora) => {
+      const h = hora.getHours(); // Hora atual do intervalo (ex: 13 para 13:00)
+      const diaSemana = hora.getDay(); // 0 para Domingo, 6 para Sábado
+      const fimDeSemana = diaSemana === 0 || diaSemana === 6; // Verifica se é Fim de Semana
       let valorHora = 0;
 
       if (tipoPlantao === 'PA') {
+        // Horários para Pronto Atendimento
         if (fimDeSemana) {
-          valorHora = (h >= 7 && h < 19) ? 60 : 70;
+          // Fim de semana
+          valorHora = (h >= 7 && h < 19) ? 60 : 70; // 07h-19h é 60, 19h-07h (noturno) é 70
         } else {
-          valorHora = (h >= 7 && h < 19) ? 50 : 70;
+          // Dia útil
+          valorHora = (h >= 7 && h < 19) ? 50 : 70; // 07h-19h é 50, 19h-07h (noturno) é 70
         }
       } else if (tipoPlantao === 'Lider') {
-        if (h >= 9 && h < 17) {
-          valorHora = fimDeSemana ? 80 : 70;
+        // Horários para Líder
+        if (h >= 9 && h < 17) { // Para Líder, apenas o horário 09h-17h é considerado
+          valorHora = fimDeSemana ? 80 : 70; // Fim de semana é 80, Dia útil é 70
+        } else {
+          valorHora = 0; // Horas fora do intervalo 09h-17h para Líder não contam para o fixo
         }
       }
-
       total += valorHora;
-    }
+    });
 
     return total;
   };
@@ -534,14 +545,7 @@ export default function PlantaoApp() {
     <div className="registro-container">
       <div className="header-box">
         <h1>Registro de Plantão</h1>
-        {/* Botão Voltar no topo para conveniência */}
-        <Button
-            onClick={voltarParaInicio}
-            variant="outline"
-            className="absolute top-4 right-4" 
-        >
-            Voltar ao Início
-        </Button>
+        {/* REMOVIDO: Botão "Voltar ao Início" */}
       </div>
 
       <div className="registro-info">
