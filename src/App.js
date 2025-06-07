@@ -11,12 +11,13 @@ import {
   SelectContent,
   SelectItem,
 } from './components/ui/select';
-import { eachHourOfInterval, addHours, format, isValid, subMilliseconds } from 'date-fns'; // Importei isValid e subMilliseconds
+// Importa parseISO e startOfHour para manipulação precisa de datas
+import { eachHourOfInterval, addHours, format, isValid, parseISO, startOfHour } from 'date-fns'; 
 
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 
-import './style.css'; // Certifique-se de que este arquivo existe e contém os estilos
+import './style.css'; 
 
 export default function PlantaoApp() {
   const [etapa, setEtapa] = useState('inicio');
@@ -58,80 +59,67 @@ export default function PlantaoApp() {
     [pacientes]
   );
 
-  const calcularValorFixo = () => {
-    if (
-      !dataInicioPlantao ||
-      !tipoPlantao ||
-      (tipoPlantao === 'PA' && (!horaInicioPlantao || !horaFimPlantao))
-    ) {
-      return 0;
-    }
+// A função calcularValorFixo foi substituída pela sua versão fornecida
+const calcularValorFixo = () => {
+  if (
+    !dataInicioPlantao ||
+    !tipoPlantao ||
+    (tipoPlantao === 'PA' && (!horaInicioPlantao || !horaFimPlantao))
+  ) {
+    return 0;
+  }
 
-    const startDateTimeString =
-      tipoPlantao === 'Lider'
-        ? `${dataInicioPlantao}T09:00:00`
-        : `${dataInicioPlantao}T${horaInicioPlantao}:00`;
-    // Adjusted endDateTimeString to ensure it uses dataFimPlantao correctly for PA
-    const endDateTimeString =
-      tipoPlantao === 'Lider'
-        ? `${dataFimPlantao}T17:00:00`
-        : `${dataFimPlantao}T${horaFimPlantao}:00`;
+  const startDateTimeString =
+    tipoPlantao === 'Lider'
+      ? `${dataInicioPlantao}T09:00:00`
+      : `${dataInicioPlantao}T${horaInicioPlantao}:00`;
+  const endDateTimeString =
+    tipoPlantao === 'Lider'
+      ? `${dataFimPlantao}T17:00:00`
+      : `${dataFimPlantao}T${horaFimPlantao}:00`;
 
+  const dataInicio = new Date(startDateTimeString);
+  const dataFim = new Date(endDateTimeString);
 
-    const dataInicio = new Date(startDateTimeString);
-    const dataFim = new Date(endDateTimeString);
+  if (isNaN(dataInicio.getTime()) || isNaN(dataFim.getTime()) || dataFim.getTime() <= dataInicio.getTime()) {
+    console.error(
+      'Datas ou horas inválidas ou período de término antes/igual ao de início para cálculo de valor fixo.'
+    );
+    return 0;
+  }
 
-    if (isNaN(dataInicio.getTime()) || isNaN(dataFim.getTime()) || dataFim.getTime() <= dataInicio.getTime()) {
-      console.error(
-        'Datas ou horas inválidas ou período de término antes/igual ao de início para cálculo de valor fixo.'
-      );
-      return 0;
-    }
+  // calcula diferença em milissegundos
+  const diffMs = dataFim.getTime() - dataInicio.getTime();
+  // calcula total de horas exatas
+  const totalHoras = diffMs / (1000 * 60 * 60);
 
-    // Correção: Use addHours(dataFim, -1) para tornar o final do intervalo exclusivo
-    const hoursInterval = eachHourOfInterval({
-      start: dataInicio,
-      end: addHours(dataFim, -1),
-    });
+  let total = 0;
 
-    // --- Início da seção de depuração para cálculo fixo ---
-    console.log('--- Debugging Fixed Value Calculation ---');
-    console.log('Tipo de Plantão:', tipoPlantao);
-    console.log('Data/Hora Início (parsed):', dataInicio.toISOString());
-    console.log('Data/Hora Fim (parsed):', dataFim.toISOString());
-    console.log('Data/Hora Fim enviada para eachHourOfInterval (subtraindo 1 hora):', addHours(dataFim, -1).toISOString());
-    console.log('Horas no intervalo gerado (apenas início da hora):', hoursInterval.map(d => format(d, 'HH:mm')));
-    console.log('Número de horas no intervalo:', hoursInterval.length);
-    // --- Fim da seção de depuração para cálculo fixo ---
+  for (let i = 0; i < totalHoras; i++) {
+    const horaAtual = new Date(dataInicio.getTime() + i * 60 * 60 * 1000);
+    const h = horaAtual.getHours();
+    const diaSemana = horaAtual.getDay();
+    const fimDeSemana = diaSemana === 0 || diaSemana === 6;
+    let valorHora = 0;
 
-    return hoursInterval.reduce((total, hora) => {
-      const h = hora.getHours(); // Hora atual do intervalo (ex: 13 para 13:00)
-      const diaSemana = hora.getDay(); // 0 para Domingo, 6 para Sábado
-      const fimDeSemana = diaSemana === 0 || diaSemana === 6; // Verifica se é Fim de Semana
-      let valorHora = 0;
-
-      if (tipoPlantao === 'PA') {
-        // Horários para Pronto Atendimento
-        if (fimDeSemana) {
-          // Fim de semana
-          valorHora = (h >= 7 && h < 19) ? 60 : 70; // 07h-19h é 60, 19h-07h (noturno) é 70
-        } else {
-          // Dia útil
-          valorHora = (h >= 7 && h < 19) ? 50 : 70; // 07h-19h é 50, 19h-07h (noturno) é 70
-        }
-      } else if (tipoPlantao === 'Lider') {
-        // Horários para Líder
-        if (h >= 9 && h < 17) { // Para Líder, apenas o horário 09h-17h é considerado
-          valorHora = fimDeSemana ? 80 : 70; // Fim de semana é 80, Dia útil é 70
-        } else {
-          valorHora = 0; // Horas fora do intervalo 09h-17h para Líder não contam para o fixo
-        }
+    if (tipoPlantao === 'PA') {
+      if (fimDeSemana) {
+        valorHora = (h >= 7 && h < 19) ? 60 : 70;
+      } else {
+        valorHora = (h >= 7 && h < 19) ? 50 : 70;
       }
-      
-      console.log(`Hora: ${format(hora, 'HH:mm')}, Dia Semana: ${diaSemana} (Fim de Semana: ${fimDeSemana}), Valor da Hora: ${valorHora}`);
-      return total + valorHora;
-    }, 0);
-  };
+    } else if (tipoPlantao === 'Lider') {
+      if (h >= 9 && h < 17) {
+        valorHora = fimDeSemana ? 80 : 70;
+      }
+    }
+
+    total += valorHora;
+  }
+
+  return total;
+};
+
 
   useEffect(() => {
     const fixo = calcularValorFixo();
@@ -156,8 +144,7 @@ export default function PlantaoApp() {
 
   const gerarPDF = () => {
     const doc = new jsPDF();
-    // Removida a linha doc.addFont('ZapfDingbats', 'normal'); para evitar possíveis problemas
-
+    
     let currentY = 20;
     const margin = 14;
     const primaryRed = hexToRgb('#b30c0c');
@@ -264,10 +251,10 @@ export default function PlantaoApp() {
         body: pacientes.map((p, index) => [
           index + 1,
           p.nome,
-          p.inicial ? 'X' : '', // Trocado para 'X'
-          p.retorno ? 'X' : '', // Trocado para 'X'
-          p.reavaliacao ? 'X' : '', // Trocado para 'X'
-          p.desfecho ? 'X' : '', // Trocado para 'X'
+          p.inicial ? 'X' : '', 
+          p.retorno ? 'X' : '', 
+          p.reavaliacao ? 'X' : '', 
+          p.desfecho ? 'X' : '', 
           p.obs,
           `R$ ${calcularValorPaciente(p).toFixed(2)}`,
         ]),
@@ -288,10 +275,10 @@ export default function PlantaoApp() {
         },
         columnStyles: {
           0: { halign: 'center', cellWidth: 10 },
-          2: { halign: 'center', cellWidth: 20 }, // Removida font: 'ZapfDingbats'
-          3: { halign: 'center', cellWidth: 20 }, // Removida font: 'ZapfDingbats'
-          4: { halign: 'center', cellWidth: 25 }, // Removida font: 'ZapfDingbats'
-          5: { halign: 'center', cellWidth: 20 }, // Removida font: 'ZapfDingbats'
+          2: { halign: 'center', cellWidth: 20 }, 
+          3: { halign: 'center', cellWidth: 20 }, 
+          4: { halign: 'center', cellWidth: 25 }, 
+          5: { halign: 'center', cellWidth: 20 }, 
           7: { halign: 'right', cellWidth: 20 },
         },
         alternateRowStyles: {
@@ -355,17 +342,24 @@ export default function PlantaoApp() {
     );
 
     // Lógica para nomear o arquivo PDF
-    const startDate = new Date(dataInicioPlantao);
+    const startDate = parseISO(dataInicioPlantao); 
     let formattedDate = '';
-    if (dataInicioPlantao && isValid(startDate)) { // Verifica se a data é válida
+    if (dataInicioPlantao && isValid(startDate)) { 
         formattedDate = format(startDate, 'dd-MM-yyyy');
     } else {
-        formattedDate = 'Data-Indefinida'; // Fallback para data inválida
+        formattedDate = 'Data-Indefinida'; 
     }
 
-    const cleanedPlantonistaName = nomePlantonista.trim().replace(/\s+/g, '-'); // Remove espaços extras e substitui por hífen
+    // Implementação da limpeza do nome do plantonista conforme sua especificação
+    const cleanedPlantonistaName = nomePlantonista
+      .trim()
+      .normalize("NFD") // remove acentos
+      .replace(/[\u0300-\u036f]/g, "") // remove acentos
+      .replace(/\s+/g, "-") // troca espaços por hífens
+      .replace(/[^a-zA-Z0-9-_]/g, ""); // remove caracteres inválidos para filename
     
-    let filename = `relatorio-plantao.pdf`; // Nome de arquivo padrão
+    // A lógica do filename foi mantida igual à sua especificação
+    let filename = `relatorio-plantao.pdf`; 
     if (cleanedPlantonistaName && formattedDate !== 'Data-Indefinida') {
         filename = `${cleanedPlantonistaName}-${formattedDate}.pdf`;
     } else if (cleanedPlantonistaName) {
@@ -374,14 +368,13 @@ export default function PlantaoApp() {
         filename = `relatorio-${formattedDate}.pdf`;
     }
 
-    console.log('Final filename generated:', filename); // Confirma o nome final
+    console.log('Final filename generated:', filename); 
 
     doc.save(filename);
   };
 
   const adicionarPaciente = () => {
     if (!nomePaciente.trim()) {
-      // Alterado de alert para um console.error ou modal customizado se você tiver um.
       console.error('Por favor, insira o nome do paciente.');
       return;
     }
@@ -547,7 +540,7 @@ export default function PlantaoApp() {
         <Button
             onClick={voltarParaInicio}
             variant="outline"
-            className="absolute top-4 right-4" // Tailwind classes for positioning
+            className="absolute top-4 right-4" 
         >
             Voltar ao Início
         </Button>
